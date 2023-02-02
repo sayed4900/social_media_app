@@ -1,14 +1,17 @@
 const mongoose = require("mongoose");
 
 const postSchema = mongoose.Schema({
-    image: { type: String, requried },
+    image: {
+        type: String,
+        //  requried
+    },
     title: {
         type: String,
         required: true,
     },
     cloudinaryId: {
         type: String,
-        require: true,
+        // require: true,
     },
     caption: {
         type: String,
