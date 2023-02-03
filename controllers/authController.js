@@ -1,6 +1,7 @@
 const { promisify } = require("util");
 const catchAsync = require("./../utils/catchAsync");
 const User = require("../models/User");
+const Post = require("../models/Post");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 
@@ -62,6 +63,18 @@ exports.login = catchAsync(async (req, res, next) => {
     createSendToken(user, 200, res);
 });
 
+exports.getProfile = catchAsync(async (req, res, next) => {
+    // get user
+    console.log(req.params);
+    const user = await User.findById(req.params.id);
+    console.log(user);
+
+    // get all post for this user
+    const userPosts = await Post.find({ user: user._id });
+    console.log(userPosts);
+    // get all comments for the post
+    res.status(200).json({ status: "success", user, userPosts });
+});
 exports.protect = catchAsync(async (req, res, next) => {
     //1) Get the token and check of it's there
     //
