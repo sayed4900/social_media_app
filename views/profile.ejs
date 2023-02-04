@@ -1,0 +1,8 @@
+<h1>Profile</h1>
+<h1>Hello <%= user.username%></h1>
+<form method="post" action="/post/creatPost">
+    <input type="text" name="title" placeholder="Title" />
+    <input type="text" name="caption" placeholder="Caption" />
+    <input type="hidden" name="user" value="<%= user %>" />
+    <button type="submit">Make a Post</button>
+</form>

@@ -21,11 +21,11 @@ router.put(
 );
 
 // comments
-router.get("/show/:id", postController.getPostComments);
-router.post(
-    "/creatComment/:id",
-    authController.protect,
-    postController.makeComment
-);
+// router.get("/show/:id", postController.getPostComments);
+// router.post(
+//     "/creatComment/:id",
+//     authController.protect,
+//     postController.makeComment
+// );
 
 module.exports = router;
