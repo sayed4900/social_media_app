@@ -31,4 +31,14 @@ const postSchema = mongoose.Schema({
     },
 });
 
+postSchema.pre(/^find/, function(next) {
+    // this points to the current query.
+    this.populate({
+        path: 'user',
+        select: 'username email'
+        });
+        next();
+});
+
+
 module.exports = mongoose.model("Post", postSchema);

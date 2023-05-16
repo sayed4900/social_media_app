@@ -48,12 +48,12 @@
             console.log("Done");
             const data = await res.json();
             console.log(data)
-            if (data.errors){
-                console.log('💥➡️➡️➡️',data.errors)
-                emailError.textContent = data.errors.email
-                passwordError.textContent = data.errors.password
+            if (data.error){
+                emailError.textContent = data.error.email
+                usernameError.textContent = data.error.username
+                passwordError.textContent = data.error.password
             }
-            if (data.user || data._id){
+            if (data.user){
                 console.log(data.user);
                 location.assign('/');
             }

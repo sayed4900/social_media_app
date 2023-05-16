@@ -59,5 +59,6 @@ exports.deletePost = catchAsync(async (req, res, next) => {
 });
 exports.allPosts = catchAsync(async (req, res, next) => {
     const posts = await Post.find();
-    res.status(200).json({ status: "success", result: posts.length, posts });
+    console.log(posts);
+    res.status(200).render('feed',{ status: "success",posts, result: posts.length,  });
 });

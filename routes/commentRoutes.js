@@ -3,6 +3,7 @@ const router = express.Router();
 
 const commentController = require("../controllers/commentController");
 
+router.get('/getComment/:id',authController.protect,getPostComments)
 router.post(
     "/creatComment/:id",
     authController.protect,
