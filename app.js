@@ -1,15 +1,17 @@
 const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
-const authRoutes = require("./routes/authRoutes");
+const mainRoutes = require("./routes/mainRoutes");
 const postRoutes = require("./routes/postRoutes");
-const viewRoutes = require("./routes/viewRoutes");
+const globalErrorHandler = require('./controllers/errorController');
+
+
 
 const app = express();
 
-const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("dev"));
@@ -17,7 +19,7 @@ app.use(morgan("dev"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.urlencoded({ extended: false })); // to can get data from input ejs
+app.use(express.urlencoded({ extended: false })); 
 
 app.use(bodyParser.json());
 
@@ -30,7 +32,13 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/", authRoutes);
-app.use("/user", viewRoutes);
+app.use("/", mainRoutes);
+
 app.use("/post", postRoutes);
+app.all('*', (req, res, next) => {
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+    });
+
+    app.use(globalErrorHandler);
+
 module.exports = app;

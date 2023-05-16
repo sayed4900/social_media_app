@@ -16,15 +16,13 @@ const signToken = (id) => {
 const createSendToken = (user, statusCode, res) => {
     const token = signToken(user._id);
     const cookieOptions = {
-        expires: new Date(
-            Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-        ),
+        expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
         httpOnly: true,
         // secure: true,
     };
     if (process.env.NODE_ENV === "prodution") cookieOptions.secure = true;
     res.cookie("jwt", token, cookieOptions);
-
+    console.log("⬆️⬆️⬆️", token);
     // remove password from output
     // user.password = undefined;
 
@@ -34,8 +32,29 @@ const createSendToken = (user, statusCode, res) => {
         data: { user },
     });
 };
+
+exports.getSignup = (req,res,next)=>{
+    res.render('signup')
+}
 exports.signup = catchAsync(async (req, res, next) => {
     console.log(req.body);
+    console.log("➡️➡️➡️➡️", "SAYED");
+    const user = await User.findOne({$or:[
+        {email:req.body.email},
+        {username:req.body.username}
+    ]}).exec();
+
+    if (user) {
+        // Check which field (email or username) is already taken
+        if (user.email === req.body.email) {
+          // Email is already taken
+            return next(new AppError("Email is already taken", 409));
+        } else {
+          // Username is already taken
+            return next(new AppError("Username is already taken", 409));
+        }
+    }
+
     const newUser = await User.create({
         username: req.body.username,
         email: req.body.email,
@@ -44,6 +63,9 @@ exports.signup = catchAsync(async (req, res, next) => {
     // res.json({ newUser });
     createSendToken(newUser, 201, res);
 });
+exports.getLogin = catchAsync(async (req, res, next) => {
+    res.render('login')
+})
 
 exports.login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
@@ -59,7 +81,7 @@ exports.login = catchAsync(async (req, res, next) => {
         return next(new AppError("Incorrect email or password", 401)); //401 unauthorized
     }
     // 3)if everything ok, send token to client
-
+    console.log("dsnkafjkadsfk");
     createSendToken(user, 200, res);
 });
 
@@ -75,6 +97,7 @@ exports.getProfile = catchAsync(async (req, res, next) => {
     // get all comments for the post
     res.status(200).json({ status: "success", user, userPosts });
 });
+
 exports.protect = catchAsync(async (req, res, next) => {
     //1) Get the token and check of it's there
     //
@@ -83,6 +106,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (req.headers.authorization?.startsWith("Bearer")) {
         token = req.headers.authorization.split(" ")[1];
     }
+    console.log(req.user);
     console.log(req.cookies.jwt);
     // else if (req.cookies.jwt) {
     //     token = req.cookie.jwt;
@@ -108,16 +132,6 @@ exports.protect = catchAsync(async (req, res, next) => {
                 401
             )
         );
-    //4) Check if user changed password after token  was issued
-
-    // if (currentUser.changePasswordAfter(decoded.iat)) {
-    //     return next(
-    //         new AppError(
-    //             "User recently changed password! Please log in again",
-    //             401
-    //         )
-    //     );
-    // }
 
     //GRANT ACCESS TO PROTECTED ROUTE
     req.user = currentUser;
@@ -142,3 +156,8 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
     }
     next();
 });
+
+exports.logout =  catchAsync(async (req, res, next) => {
+    res.cookie('jwt', '', { maxAge: 0 }); // jwt=''
+    res.redirect('/');
+})

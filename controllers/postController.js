@@ -21,12 +21,14 @@ const Comment = require("../models/Comment");
 //     });
 // });
 exports.makePost = catchAsync(async (req, res, next) => {
+    
     const post = await Post.create({
         title: req.body.title,
         user: req.user,
         likes: 0,
         caption: req.body.caption,
     });
+    console.log("✈️", user);
     res.status(201).json({
         status: "success",
         post,
