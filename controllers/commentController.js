@@ -17,9 +17,23 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
     console.log("comment removed " + comment);
     res.redirect("/post/" + req.params.postid);
 });
+exports.updateComment = catchAsync(async (req, res, next) => {
+    const comment = await Comment.findByIdAndUpdate(req.params.commentid ,
+        {
+            comment:req.body.comment
+        },
+        {
+            new:true
+        });
+    console.log("comment updated " + comment);
+    // res.redirect("/post/" + req.params.postid);
+    res.status(200).json({status:'success',newComment:comment});
+    
+});
+
 
 exports.getPostComments = catchAsync(async (req, res, next) => {
-    const comments = await Comment.findOne({ post: req.params.postid })// maybe error from here here
+    const comments = await Comment.find({ post: req.params.postid })// maybe error from here here
     // res.status(200).render('comment',{
     //     status: "success",
     //     result: comments.length,

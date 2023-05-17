@@ -5,6 +5,7 @@ const authController = require("../controllers/authController");
 const commentController = require("../controllers/commentController");
 
 router.get('/:postid',authController.protect ,commentController.getPostComments);
+
 router.post(
     "/creatComment/:postid",
     authController.protect,
@@ -15,6 +16,12 @@ router.delete(
     authController.protect,
     commentController.deleteComment
 );
+router.put(
+    "/updateComment/:postid/:commentid",
+    authController.protect,
+    commentController.updateComment
+);
+
 // router.get("/show/:id", postController.getPostComments);
 
 module.exports = router;
