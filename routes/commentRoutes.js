@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+const authController = require("../controllers/authController");
 const commentController = require("../controllers/commentController");
 
-router.get('/getComment/:id',authController.protect,getPostComments)
+router.get('/:postid',authController.protect ,commentController.getPostComments);
 router.post(
-    "/creatComment/:id",
+    "/creatComment/:postid",
     authController.protect,
     commentController.makeComment
 );

@@ -6,7 +6,7 @@ exports.makeComment = catchAsync(async (req, res, next) => {
     const comment = await Comment.create({
         comment: req.body.comment,
         user: req.user,
-        post: req.params.id,
+        post: req.params.postid,
     });
     console.log(comment);
     res.status(201).json({ status: "success", comment });
@@ -19,7 +19,13 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
 });
 
 exports.getPostComments = catchAsync(async (req, res, next) => {
-    const comments = await Comment.find({ post: req.params.id });
+    const comments = await Comment.findOne({ post: req.params.postid })// maybe error from here here
+    // res.status(200).render('comment',{
+    //     status: "success",
+    //     result: comments.length,
+    //     data: { comments },
+    // });
+    console.log('GET ALL COMMENTs');
     res.status(200).json({
         status: "success",
         result: comments.length,

@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 
 const mainRoutes = require("./routes/mainRoutes");
 const postRoutes = require("./routes/postRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 const globalErrorHandler = require('./controllers/errorController');
 
 
@@ -33,12 +34,13 @@ app.use((req, res, next) => {
 });
 
 app.use("/", mainRoutes);
-
 app.use("/post", postRoutes);
+app.use("/comment", commentRoutes);
+
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
     });
 
-    app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 module.exports = app;
