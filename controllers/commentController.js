@@ -34,15 +34,19 @@ exports.updateComment = catchAsync(async (req, res, next) => {
 
 exports.getPostComments = catchAsync(async (req, res, next) => {
     const comments = await Comment.find({ post: req.params.postid })// maybe error from here here
-    // res.status(200).render('comment',{
-    //     status: "success",
-    //     result: comments.length,
-    //     data: { comments },
-    // });
-    console.log('GET ALL COMMENTs');
-    res.status(200).json({
+    res.status(200).render('comment',{
         status: "success",
         result: comments.length,
-        data: { comments },
+        comments ,
     });
+    // console.log('GET ALL COMMENTs');
+    // console.log(comments);
+    // console.log(comments[0].post.title);
+    // console.log(comments[0].post.caption);
+    // console.log(comments[0].user.username);
+    // res.status(200).json({
+    //     status: "success",
+    //     result: comments.length,
+    //     comments ,
+    // });
 });

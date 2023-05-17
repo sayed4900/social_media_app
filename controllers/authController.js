@@ -101,13 +101,13 @@ exports.getProfile = catchAsync(async (req, res, next) => {
 exports.protect = catchAsync(async (req, res, next) => {
     //1) Get the token and check of it's there
     //
-    let token;
+    let token=req.cookies.jwt;
 
     if (req.headers.authorization?.startsWith("Bearer")) {
         token = req.headers.authorization.split(" ")[1];
     }
     console.log(req.user);
-    console.log(req.cookies.jwt);
+    console.log('jwt : ',req.cookies.jwt);
     // else if (req.cookies.jwt) {
     //     token = req.cookie.jwt;
     // }
