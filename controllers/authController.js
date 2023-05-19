@@ -29,7 +29,7 @@ const createSendToken = (user, statusCode, res) => {
     res.status(statusCode).json({
         status: "success",
         token,
-        data: { user },
+        data: user ,
     });
 };
 
@@ -87,15 +87,16 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.getProfile = catchAsync(async (req, res, next) => {
     // get user
-    console.log(req.params);
     const user = await User.findById(req.params.id);
     console.log(user);
-
+    console.log('➡️➡️➡️➡️➡️',req.user);
     // get all post for this user
+    const CurrentUserId = req.user._id;
     const userPosts = await Post.find({ user: user._id });
     console.log(userPosts);
     // get all comments for the post
-    res.status(200).json({ status: "success", user, userPosts });
+    // res.status(200).json({ status: "success", user, userPosts });
+    res.status(200).render('profile',{currentUser:user,CurrentUserId})
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -106,8 +107,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (req.headers.authorization?.startsWith("Bearer")) {
         token = req.headers.authorization.split(" ")[1];
     }
-    console.log(req.user);
-    console.log('jwt : ',req.cookies.jwt);
+    // console.log(req.user);
+    // console.log('jwt : ',req.cookies.jwt);
     // else if (req.cookies.jwt) {
     //     token = req.cookie.jwt;
     // }

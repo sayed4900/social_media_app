@@ -57,8 +57,10 @@ exports.deletePost = catchAsync(async (req, res, next) => {
     const post = await Post.findByIdAndDelete(req.params.id);
     res.status(204).json({ status: "success" });
 });
+
+// getFeed is a better name
 exports.allPosts = catchAsync(async (req, res, next) => {
-    const posts = await Post.find();
+    const posts = await Post.find().sort({createdAt:"desc"}).lean();
     console.log(posts);
     res.status(200).render('feed',{ status: "success",posts, result: posts.length,  });
 });

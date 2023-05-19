@@ -3,7 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-
+const methodOverride = require('method-override');
 const mainRoutes = require("./routes/mainRoutes");
 const postRoutes = require("./routes/postRoutes");
 const commentRoutes = require("./routes/commentRoutes");
@@ -12,17 +12,21 @@ const globalErrorHandler = require('./controllers/errorController');
 
 
 const app = express();
-
+// read cookie from browser
 app.use(cookieParser());
+// 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(morgan("dev"));
-
+//set engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
 app.use(express.urlencoded({ extended: false })); 
-
 app.use(bodyParser.json());
+
+// Logging requests
+app.use(morgan("dev"));
+
+//Use forms for put / delete
+app.use(methodOverride("_method"));
 
 app.use(express.json({ limit: "10kb" }));
 

@@ -1,8 +1,11 @@
 <h1>Profile</h1>
-<h1>Hello <%= user.username%></h1>
+<h4>Username: <%= currentUser.username%></h4>
+<h4>Email: <%= currentUser.email%></h4>
+
+<% if (currentUser._id === CurrentUserId ) %>
 <form method="post" action="/post/creatPost">
     <input type="text" name="title" placeholder="Title" />
     <input type="text" name="caption" placeholder="Caption" />
-    <input type="hidden" name="user" value="<%= user %>" />
+    <!-- <input type="hidden" name="user" value="= user %>" /> -->
     <button type="submit">Make a Post</button>
 </form>
