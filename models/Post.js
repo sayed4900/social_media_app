@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const postSchema = mongoose.Schema({
     image: {
         type: String,
-        //  requried
+        requried: true,
     },
     title: {
         type: String,
@@ -11,7 +11,7 @@ const postSchema = mongoose.Schema({
     },
     cloudinaryId: {
         type: String,
-        // require: true,
+        require: true,
     },
     caption: {
         type: String,

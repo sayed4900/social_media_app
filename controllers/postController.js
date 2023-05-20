@@ -24,10 +24,11 @@ const Comment = require("../models/Comment");
 
 exports.makePost = catchAsync(async (req, res, next) => {
     
-    console.log(req.body);
+    // console.log(req);
+    console.log('✈️',req.body);
+     
     
-    
-    const result = await cloudinary.uploader.upload(req.body.file);
+    const result = await cloudinary.uploader.upload(req.file.path);
     console.log(result);
     const post = await Post.create({
         title: req.body.title,

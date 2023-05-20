@@ -10,31 +10,34 @@
 <% if (loggedUserId === currentUserId ) { %>
     <div class="createPost">
         <h1>Add a post</h1>
-        <form enctype="multipart/form-data" >
+        <!-- <form action="/post/creatPost" method="POST" enctype="multipart/form-data" > -->
+        <form  enctype="multipart/form-data" >
             <label for="title">Title</label>
             <input id="title" type="text" required name="title">
             <div class="title error"></div>
 
             <label for="caption">Caption</label>
             <textarea  id="caption" name="caption"></textarea>
-            
-            <div class="caption error"></div>
 
-            <label for="image">Image</label>
-            <input id="file" type="file" name="file">
+            <div class="caption error"></div>
+            
+            <label for="file">Image</label>
+            <input type="file" id="imageUpload" name="file" required>
+            <div class="image error"></div>
 
         
             <!-- <input type="hidden" name="user" value="= = currentUser %>" /> -->
-            <button >Create a Post</button>
+            <button type="submit" >Create a Post</button>
         </form>
         <% } %>
     </div>
     <script >
     
         const form = document.querySelector('form');
-        
+
         const titleError = document.querySelector('.title.error')
         const captionError = document.querySelector('.caption.error')
+        const fileError = document.querySelector('.image.error')
     
         form.addEventListener('submit',async (e)=>{
             e.preventDefault();
@@ -44,28 +47,36 @@
             captionError.textContent = '';
     
             // get the values
-            const title = form.title.value;
+            /* const title = form.title.value;
             const caption=form.caption.value;
-            const file=form.file.value;
-            console.log(title,caption,file)
+            const file = form.image.value;*/
+
+            const formData = new FormData(form);
+            const title = formData.get('title');
+            const caption = formData.get('caption');
+            const file = formData.get('image');
             
+    
+            console.log(title,caption,file)
+
+        
     
             try{
                 const res = await fetch('/post/creatPost',{
                     method:'POST',
-                    body:JSON.stringify({title,caption,file}),
-                    headers:{'Content-Type':'application/json'}
+                    body:formData,
+                    
                 })
                 
                 const data = await res.json();
                 console.log(data)
-                if (data.status==='error'||data.errors){
-                    console.log('💥➡️➡️➡️',data.errors)
-                    emailError.textContent = data.errors.email
-                    passwordError.textContent = data.errors.password
+                if (data.status==='error'||data.error){
+                    console.log('💥➡️➡️➡️',data.error)
+                    emailError.textContent = data.error.email
+                    passwordError.textContent = data.error.password
                 }
                 if (data.status==="success" ){
-                    console.log("Login success");
+                    console.log("Succefully create a post");
                     location.assign(`/profile/${data.post.user._id}`);
                 }
             }catch(err){
@@ -74,5 +85,5 @@
     
         })
     </script>
-    
+ 
 <%- include('./partials/footer') %>
