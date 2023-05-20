@@ -4,10 +4,10 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const commentController = require("../controllers/commentController");
 
-router.get('/:postid',authController.protect ,commentController.getPostComments);
+
 
 router.post(
-    "/creatComment/:postid",
+    "/createComment/:postid",
     authController.protect,
     commentController.makeComment
 );

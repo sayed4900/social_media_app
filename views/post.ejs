@@ -1,1 +1,59 @@
 <!-- I will implement a form for carete a POSt -->
+<%- include('partials/header') -%>
+<div class="">
+  <div class="content-post">
+    <div class="">
+      <h2 class="post-title"><%= post.title %></h2>
+      <img class="img" src="<%= post.image%>" />
+      <div class="form-icons">
+        <form
+          class="icon"
+          action="/post/updateLikes/<%= post.id %>?_method=PUT"
+          method="POST"
+        >
+          <button class=" fa fa-heart" type="submit"></button>
+        </form>
+        <h3 class="col-3">Likes: <%= post.likes %></h3>
+        <%if(user._id.toString() === post.user._id.toString()){ %>
+        <form
+          action="/post/deletePost/<%= post.id %>?_method=DELETE"
+          method="POST"
+          class="icon"
+        >
+          <button class="btn btn-primary fa fa-trash" type="submit"></button>
+        </form>
+        <%}%>
+      </div>
+    </div>
+
+    <div class="post-caption">
+      <p><%= post.caption %></p>
+    </div>
+  </div>
+  <div class="post-comments">
+    <ul>
+      <% comments.forEach(comment => { %>
+        <li><a href="/profile/<%= post.user._id  %>" > <%= comment.user.username%> </a> : <%= comment.comment  %></li>
+      <% }) %>
+    </ul>
+  </div>
+  </div>
+    <div class="comment">
+      <h2 class="comment-title">Add a comment</h2>
+      <form action="/comment/createComment/<%=post._id%>" method="POST">
+        <div class="mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <input type="text" class="form-control" id="comment" name="comment">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    
+    <div class="col-6 mt-5">
+      <a class="btn btn-primary" href="/">Return to Profile</a>
+      <a class="btn btn-primary" href="/post/feed">Return to Feed</a>
+    </div>
+</div>
+
+<%- include('partials/footer') -%>
+

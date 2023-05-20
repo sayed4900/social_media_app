@@ -8,8 +8,9 @@ exports.makeComment = catchAsync(async (req, res, next) => {
         user: req.user,
         post: req.params.postid,
     });
-    console.log(comment);
-    res.status(201).json({ status: "success", comment });
+    console.log(`${req.user.username}: comment=>`,comment);
+    res.redirect(`/post/${req.params.postid}`)
+    // res.status(201).json({ status: "success", comment });
 });
 
 exports.deleteComment = catchAsync(async (req, res, next) => {

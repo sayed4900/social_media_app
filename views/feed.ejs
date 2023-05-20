@@ -2,16 +2,23 @@
 
 <h1>FEED</h1>
 <!-- on the feed create render the images on ancher tag which lead to the post  -->
-<ul>
+<div class="feed">
 
-    <% posts.forEach(post => { %>
-        
-            <a href="/post/<%= post._id%>"><h2><%= post.title  %></h2></a>
+    <ul>
+        <% posts.forEach(post => { %>
             
-        <h3> <%= post.caption  %> </h3>
-        <li><%= post.user.username  %></li>
-    <% }) %>
+        <li class="col-6 justify-content-between mt-5">
+            <a href="/post/<%= post._id%>">
+                <img class="img" src="<%= post.image%>">
+            </a>
+        </li>
+            
+        <% }) %>
+    </ul>
         
-</ul>
-
-<%- include('./partials/footer.ejs') %>
+</div>
+<div class="col-6 mt-5">
+    <a class="btn btn-primary" href="/">Return to Profile</a>
+    
+  </div>
+<%- include('./partials/footer.ejs') %> 

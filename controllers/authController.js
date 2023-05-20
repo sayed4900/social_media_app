@@ -26,7 +26,7 @@ const createSendToken = (user, statusCode, res) => {
     console.log("⬆️⬆️⬆️", token);
     // remove password from output
     // user.password = undefined;
-
+    // res.redirect('/');
     res.status(statusCode).json({
         status: "success",
         token,
@@ -35,7 +35,12 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.getSignup = (req,res,next)=>{
-    res.render('signup',{title:"Signup"})
+    if(req.user){
+        res.redirect(`/profile/${req.user._id}`);
+    }
+    else {
+    }res.render('signup',{title:"Signup"});
+        
 }
 exports.signup = catchAsync(async (req, res, next) => {
     

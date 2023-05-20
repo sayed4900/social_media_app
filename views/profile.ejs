@@ -31,6 +31,21 @@
         </form>
         <% } %>
     </div>
+
+    <!-- user post -->
+    <div class="user-posts">
+        <ul>
+            <% userPosts.forEach(post => { %>
+                
+            <li class="col-6 justify-content-between mt-5">
+                <a href="/post/<%= post._id%>">
+                    <img class="img" src="<%= post.image%>">
+                </a>
+            </li>
+                
+            <% }) %>
+        </ul>
+    </div>
     <script >
     
         const form = document.querySelector('form');
