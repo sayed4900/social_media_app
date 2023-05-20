@@ -34,8 +34,15 @@ header  a{
 /* feed */
 .feed{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 1rem;
+}
+.feed img{
+  width: 25%;
+   
+}
+.feed div {
+  flex-basis: 25%;
 }
 
 /* main page (index.ejs) */
@@ -158,8 +165,8 @@ form textarea{
   margin-bottom: 1rem;
   
 }
-.img{
-  width: 100%;
+.content-post .img{
+  width: 50%;
 }
 
 .form-icons{
@@ -171,7 +178,8 @@ form textarea{
   box-shadow: none;
 }
 .post-caption{
-  /* text-align: center; */
+  display: block;
+  margin: 5rem 10rem;
 }
 .comment{
   margin-bottom: 5rem;

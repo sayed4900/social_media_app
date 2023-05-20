@@ -69,7 +69,8 @@ exports.signup = catchAsync(async (req, res, next) => {
     createSendToken(newUser, 201, res);
 });
 exports.getLogin = catchAsync(async (req, res, next) => {
-    res.render('login',{title:"Login "})
+    if (req.user) res.redirect('/');
+    else res.render('login',{title:"Login "})
 })
 
 exports.login = catchAsync(async (req, res, next) => {

@@ -92,7 +92,7 @@
                 }
                 if (data.status==="success" ){
                     console.log("Succefully create a post");
-                    location.assign(`/profile/${data.post.user._id}`);
+                    location.assign(`/post/feed`);
                 }
             }catch(err){
                 console.log(err);
