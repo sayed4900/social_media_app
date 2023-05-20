@@ -6,7 +6,7 @@
 
     <% posts.forEach(post => { %>
         
-            <a href="/comment/<%= post.id%>"><h2><%= post.title  %></h2></a>
+            <a href="/post/<%= post._id%>"><h2><%= post.title  %></h2></a>
             
         <h3> <%= post.caption  %> </h3>
         <li><%= post.user.username  %></li>

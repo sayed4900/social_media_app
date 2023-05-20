@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
+const ObjectId = require('mongodb').ObjectId;
 
 // Sending JWT via cookie
 
@@ -34,11 +35,10 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.getSignup = (req,res,next)=>{
-    res.render('signup')
+    res.render('signup',{title:"Signup"})
 }
 exports.signup = catchAsync(async (req, res, next) => {
-    console.log(req.body);
-    console.log("➡️➡️➡️➡️", "SAYED");
+    
     const user = await User.findOne({$or:[
         {email:req.body.email},
         {username:req.body.username}
@@ -64,7 +64,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     createSendToken(newUser, 201, res);
 });
 exports.getLogin = catchAsync(async (req, res, next) => {
-    res.render('login')
+    res.render('login',{title:"Login "})
 })
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -88,15 +88,19 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.getProfile = catchAsync(async (req, res, next) => {
     // get user
     const user = await User.findById(req.params.id);
-    console.log(user);
-    console.log('➡️➡️➡️➡️➡️',req.user);
+    
     // get all post for this user
-    const CurrentUserId = req.user._id;
+    const loggedUserId = new ObjectId(req.user._id).toString();
+    const currentUserId = new ObjectId(user._id).toString();
+    
+
+    
     const userPosts = await Post.find({ user: user._id });
-    console.log(userPosts);
+    // console.log(userPosts);
+
     // get all comments for the post
     // res.status(200).json({ status: "success", user, userPosts });
-    res.status(200).render('profile',{currentUser:user,CurrentUserId})
+    res.status(200).render('profile',{currentUser:user,userPosts,loggedUserId,currentUserId,title:"Profile"})
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -138,7 +142,9 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.user = currentUser;
     next();
 });
+
 exports.isLoggedIn = catchAsync(async (req, res, next) => {
+    
     if (req.cookies.jwt) {
         // 1) Verification the token
         const decoded = await promisify(jwt.verify)(
@@ -151,8 +157,9 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
         if (!currentUser) return next();
 
         // THERE IS LOGGED USER
+        req.user = currentUser;
         res.locals.user = currentUser;
-
+        
         return next();
     }
     next();

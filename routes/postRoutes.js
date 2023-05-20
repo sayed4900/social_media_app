@@ -1,4 +1,6 @@
 const express = require("express");
+const upload = require("../middleware/multer");
+
 const postController = require("./../controllers/postController");
 const authController = require("./../controllers/authController");
 
@@ -7,7 +9,7 @@ const router = express.Router();
 // post
 router.get("/feed", postController.allPosts);
 router.get("/:id", postController.getPost);
-router.post("/creatPost", authController.protect, postController.makePost);
+router.post("/creatPost", upload.single('file') ,authController.protect, postController.makePost);
 router.delete(
     "/deletePost/:id",
     authController.protect,

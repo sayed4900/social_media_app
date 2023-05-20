@@ -1,4 +1,5 @@
 const catchAsync = require("../utils/catchAsync");
+const cloudinary = require('../middleware/cloudinary')
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 
@@ -20,15 +21,22 @@ const Comment = require("../models/Comment");
 //         data: { comments },
 //     });
 // });
+
 exports.makePost = catchAsync(async (req, res, next) => {
     
+    console.log(req.body);
+    
+    
+    const result = await cloudinary.uploader.upload(req.body.file);
+    console.log(result);
     const post = await Post.create({
         title: req.body.title,
-        user: req.user,
-        likes: 0,
         caption: req.body.caption,
+        user: req.user,
+        // image:result.secure_url,
+        likes: 0,
     });
-    console.log("✈️", user);
+    
     res.status(201).json({
         status: "success",
         post,
@@ -62,5 +70,5 @@ exports.deletePost = catchAsync(async (req, res, next) => {
 exports.allPosts = catchAsync(async (req, res, next) => {
     const posts = await Post.find().sort({createdAt:"desc"}).lean();
     console.log(posts);
-    res.status(200).render('feed',{ status: "success",posts, result: posts.length,  });
+    res.status(200).render('feed',{ status: "success",posts, result: posts.length,title:"Feed"  });
 });

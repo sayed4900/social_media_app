@@ -1,11 +1,78 @@
-<h1>Profile</h1>
-<h4>Username: <%= currentUser.username%></h4>
-<h4>Email: <%= currentUser.email%></h4>
+<%- include('./partials/header') %>
+<div class="main-profile">
+    <div class="user-info">    
+        <h4>Username: <%= currentUser.username%></h4>
+        <h4>Email: <%= currentUser.email%></h4>
+        <a href="/logout"><button class="btn">Logout</button></a>
+    </div>
+    <a href="/post/feed"><button class="btn-feed">Return to Feed</button></a>
+</div>
+<% if (loggedUserId === currentUserId ) { %>
+    <div class="createPost">
+        <h1>Add a post</h1>
+        <form enctype="multipart/form-data" >
+            <label for="title">Title</label>
+            <input id="title" type="text" required name="title">
+            <div class="title error"></div>
 
-<% if (currentUser._id === CurrentUserId ) %>
-<form method="post" action="/post/creatPost">
-    <input type="text" name="title" placeholder="Title" />
-    <input type="text" name="caption" placeholder="Caption" />
-    <!-- <input type="hidden" name="user" value="= user %>" /> -->
-    <button type="submit">Make a Post</button>
-</form>
+            <label for="caption">Caption</label>
+            <textarea  id="caption" name="caption"></textarea>
+            
+            <div class="caption error"></div>
+
+            <label for="image">Image</label>
+            <input id="file" type="file" name="file">
+
+        
+            <!-- <input type="hidden" name="user" value="= = currentUser %>" /> -->
+            <button >Create a Post</button>
+        </form>
+        <% } %>
+    </div>
+    <script >
+    
+        const form = document.querySelector('form');
+        
+        const titleError = document.querySelector('.title.error')
+        const captionError = document.querySelector('.caption.error')
+    
+        form.addEventListener('submit',async (e)=>{
+            e.preventDefault();
+    
+            // reset the errors
+            titleError.textContent = '';
+            captionError.textContent = '';
+    
+            // get the values
+            const title = form.title.value;
+            const caption=form.caption.value;
+            const file=form.file.value;
+            console.log(title,caption,file)
+            
+    
+            try{
+                const res = await fetch('/post/creatPost',{
+                    method:'POST',
+                    body:JSON.stringify({title,caption,file}),
+                    headers:{'Content-Type':'application/json'}
+                })
+                
+                const data = await res.json();
+                console.log(data)
+                if (data.status==='error'||data.errors){
+                    console.log('💥➡️➡️➡️',data.errors)
+                    emailError.textContent = data.errors.email
+                    passwordError.textContent = data.errors.password
+                }
+                if (data.status==="success" ){
+                    console.log("Login success");
+                    location.assign(`/profile/${data.post.user._id}`);
+                }
+            }catch(err){
+                console.log(err);
+            }
+    
+        })
+    </script>
+    
+<%- include('./partials/footer') %>

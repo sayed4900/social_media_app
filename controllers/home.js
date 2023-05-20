@@ -1,5 +1,11 @@
 module.exports = {
     getIndex: (req, res) => {
-        res.render("index.ejs");
-        },
-    };
+        if(req.user){
+            
+            res.redirect(`/profile/${req.user._id}`);
+        }else{
+
+            res.render("index.ejs",{title:"main"});
+        }
+    },
+};
