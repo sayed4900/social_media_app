@@ -4,10 +4,13 @@
     "description": "",
     "main": "app.js",
     "scripts": {
-        "start": "nodemon server.js ",
+        "start": "node server.js ",
         "start:prod": "SET NODE_ENV=production&& nodemon server.js"
     },
     "author": "",
+    "engines": {
+        "node":"16.15.0"
+    },
     "license": "ISC",
     "dependencies": {
         "bcrypt": "^5.1.0",
