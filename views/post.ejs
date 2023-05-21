@@ -32,7 +32,7 @@
   <div class="post-comments">
     <ul>
       <% comments.forEach(comment => { %>
-        <li><a href="/profile/<%= post.user._id  %>" > <%= comment.user.username%> </a> : <%= comment.comment  %>
+        <li><a href="/profile/<%= comment.user._id  %>" > <%= comment.user.username%> </a> : <%= comment.comment  %>
           <%if(comment.user._id.toString() === user._id.toString()){ %>
           <span class="comment-icons">
             <a href="/post/<%= post.id  %>"></a>
