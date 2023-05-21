@@ -15,8 +15,8 @@ exports.makeComment = catchAsync(async (req, res, next) => {
 
 exports.deleteComment = catchAsync(async (req, res, next) => {
     const comment = await Comment.deleteOne({ _id: req.params.commentid });
-    console.log("comment removed " + comment);
-    res.redirect("/post/" + req.params.postid);
+    // console.log("comment removed " + comment);
+    res.status(204).json({status:'success'});
 });
 exports.updateComment = catchAsync(async (req, res, next) => {
     const comment = await Comment.findByIdAndUpdate(req.params.commentid ,

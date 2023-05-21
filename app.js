@@ -8,6 +8,7 @@ const mainRoutes = require("./routes/mainRoutes");
 const postRoutes = require("./routes/postRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const globalErrorHandler = require('./controllers/errorController');
+const AppError = require('./utils/appError');
 
 
 

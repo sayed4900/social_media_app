@@ -95,6 +95,12 @@ exports.getProfile = catchAsync(async (req, res, next) => {
     // get user
     const user = await User.findById(req.params.id);
     
+    if(!user){
+        console.log("➡️➡️➡️➡️USER not defined");
+        return next(new AppError('This user is not on the App',404));
+    }else{
+        console.log("💥✈️💥✈️");
+    }
     // get all post for this user
     const loggedUserId = new ObjectId(req.user._id).toString();
     const currentUserId = new ObjectId(user._id).toString();

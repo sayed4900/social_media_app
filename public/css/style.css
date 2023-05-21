@@ -193,6 +193,15 @@ form textarea{
   background-color: #eee;
   margin-bottom: 3rem;
 }
+.comment-icons{
+  display: inline-block;
+  margin-left: .5rem;
+}
+.comment-icons i {
+  color: var(--main-color);
+  margin-left: .5rem;
+  cursor: pointer;
+}
 
 
 /* Footer */

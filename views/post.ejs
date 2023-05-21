@@ -32,7 +32,21 @@
   <div class="post-comments">
     <ul>
       <% comments.forEach(comment => { %>
-        <li><a href="/profile/<%= post.user._id  %>" > <%= comment.user.username%> </a> : <%= comment.comment  %></li>
+        <li><a href="/profile/<%= post.user._id  %>" > <%= comment.user.username%> </a> : <%= comment.comment  %>
+          <%if(comment.user._id.toString() === user._id.toString()){ %>
+          <span class="comment-icons">
+            <a href="/post/<%= post.id  %>"></a>
+            <i class="fas fa-trash" onclick="deleteComment('<%=post._id%>','<%= comment._id %>','')"></i>
+            <i class="fas fa-edit" onclick="showUpdateInput('<%= comment._id %>')"></i>
+          </span>
+          
+          <div id="updateInput_<%= comment._id %>" style="display: none;">
+            <input type="text" id="newCommentInput_<%= comment._id %>" placeholder="Enter new comment">
+            <button class="btn" onclick="updateComment('<%=post._id  %>','<%= comment._id %>')">Update</button>
+          </div>
+
+          <% } %>
+        </li>
       <% }) %>
     </ul>
   </div>
@@ -53,6 +67,43 @@
       <a class="btn btn-primary" href="/post/feed">Return to Feed</a>
     </div>
 </div>
+
+<script>
+  function deleteComment(postId,commentId) {
+    // Make an AJAX DELETE request to delete the comment
+    fetch(`/comment/deleteComment/${postId}/${commentId}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        location.assign(`/post/${postId}`)
+      })
+      .catch(error => console.error(error));
+  }
+
+  function showUpdateInput(commentId) {
+    document.getElementById(`updateInput_${commentId}`).style.display = "block";
+  
+  }
+  function updateComment(postId,commentId) {
+    const newCommentInput = document.getElementById(`newCommentInput_${commentId}`).value;
+    
+    // Make an AJAX PUT request to update the comment
+    fetch(`/comment/updateComment/${postId}/${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ comment: newCommentInput }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data, such as updating the UI or displaying a success message
+        console.log(data);
+        location.assign(`/post/${postId}`)
+      })
+      .catch(error => console.error(error));
+  }
+</script>
 
 <%- include('partials/footer') -%>
 
