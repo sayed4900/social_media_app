@@ -4,6 +4,7 @@
 
 <form >
     <h2>Login</h2>
+    <div class="error" style="text-align: center;"></div>
     <label for="email">Email</label>
     <input type="text" name="email" id="email" required>
     <div class="email error"></div>
@@ -20,6 +21,8 @@
     const form = document.querySelector('form');
     const emailError = document.querySelector('.email.error')
     const passwordError = document.querySelector('.password.error')
+    const error = document.querySelector('.error')
+    
 
     form.addEventListener('submit',async (e)=>{
         e.preventDefault();
@@ -43,10 +46,11 @@
             
             const data = await res.json();
             console.log(data)
-            if (data.errors){
-                console.log('💥➡️➡️➡️',data.errors)
+            if (data.error){
+                error.textContent = data.error;
+                /*console.log('💥➡️➡️➡️',data.errors)
                 emailError.textContent = data.errors.email
-                passwordError.textContent = data.errors.password
+                passwordError.textContent = data.errors.password*/
             }
             if (data.status==="success" ){
                 console.log("Login success");

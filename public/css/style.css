@@ -82,8 +82,13 @@ form{
   border-radius: 10px;
   background: white;
 }
+form h2{
+  text-align: center;
+}
+ 
 input{
   padding: .625em .75em;
+  margin-bottom: .625em;
   border-radius: 4px;
   border: 1px solid #ddd;
   font-size: 1em;
@@ -103,7 +108,12 @@ form button, .btn{
   letter-spacing: 2px;
   cursor: pointer;
 }
-
+.error{
+  color: #ff0099;
+  margin: 10px 2px;
+  font-size: 1em;
+  font-weight: bold;
+}
 /* Profiel  */
 
 .main-profile{

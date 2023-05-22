@@ -47,7 +47,7 @@
             })
             console.log("Done");
             const data = await res.json();
-            //console.log(data)
+            console.log(data)
             if (data.error){
                 emailError.textContent = data.error.email
                 usernameError.textContent = data.error.username
@@ -57,6 +57,7 @@
                 location.assign('/');
             }
         }catch(err){
+            console.log("ERROR IS HAPPEN")
             console.log(err);
         }
 

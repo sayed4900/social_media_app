@@ -37,11 +37,32 @@ const sendErrorDev = (err, req, res) => {
     });
   }
 
+  // Hnadle singup and login pages
+  
+  if (err.statusCode === 409){
+    let error = {};
+    console.log("Line 46 on errorController");
+    if (err.message.startsWith("Email")) error.email = err.message;
+    if (err.message.startsWith("Username")) error.username = err.message;
+
+    return res.status(err.statusCode).json({status:"fail",error});
+    // return res.status(err.statusCode).json({status:"fail",error:err.message});
+  }
+  if (err.statusCode === 401){
+    let error = {};
+
+    
+
+    return res.status(err.statusCode).json({status:"fail",error:err.message});
+    // return res.status(err.statusCode).json({status:"fail",error:err.message});
+  }
+
   // B) RENDERED WEBSITE
   console.error('💥ERROR 💥', err);
   console.log('MEESSAGE:💥 ',err.message);
   if (err.message.startsWith('Cast to ObjectId failed'))
     err.message="Invalid User";
+  
   return res.status(err.statusCode).render('error', {
     title: 'something went wrong!',
     msg: err.message

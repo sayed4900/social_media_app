@@ -7,3 +7,6 @@
 Note: The frontend of this application is still under development, and the version provided here is not the final version.
 
 -   [Live Demo](https://social-media-fbu5fz55l-sayed4900.vercel.app/)
+
+-   add to validate to email
+-   if errors happen appers it on the frontend
