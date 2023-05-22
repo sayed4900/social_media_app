@@ -1,11 +1,18 @@
 const { promisify } = require("util");
 const catchAsync = require("./../utils/catchAsync");
 const User = require("../models/User");
+const Friend = require("../models/Friend");
 const Post = require("../models/Post");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 const ObjectId = require('mongodb').ObjectId;
 
+exports.testFreind =async (req,res,next)=>{
+    const f = await Friend.create({
+        user:"63dbf95560c86ac5b929bc4d"
+    })
+    res.json(f);
+}
 // Sending JWT via cookie
 
 const signToken = (id) => {
@@ -64,10 +71,22 @@ exports.signup = catchAsync(async (req, res, next) => {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
+        friends:req.body.friends
     });
     // res.json({ newUser });
     createSendToken(newUser, 201, res);
 });
+
+exports.getUser = catchAsync(async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id).populate('friends');
+        console.log(user);
+        res.status(201).json({ status: "success", user });
+    } catch (error) {
+        next(error);
+    }
+});
+
 exports.getLogin = catchAsync(async (req, res, next) => {
     if (req.user) res.redirect('/');
     else res.render('login',{title:"Login "})

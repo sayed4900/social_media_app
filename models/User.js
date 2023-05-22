@@ -9,6 +9,10 @@ const userSchema = mongoose.Schema({
     validate:[validator.isEmail,"Please provide a valid email"]
     },
     password: {type:String,required:[true,"Please Provide a password"]},
+    friends: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Friend',
+    }]
 });
 
 userSchema.methods.correctPassword = async function (
@@ -17,7 +21,14 @@ userSchema.methods.correctPassword = async function (
 ) {
     return await bcrypt.compare(candidatePassword, userPassword);
 };
+userSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'friends',
+        
+    });
 
+    next();
+});
 userSchema.pre("save", async function (next) {
     // run this function if password was actually modified
     if (!this.isModified("password")) return next();

@@ -24,13 +24,27 @@ header .head-title{
   text-align: center;
   margin: .5em auto;
   color: var(--main-color);
-  
+  margin-left: 1em;
+}
+header{
+  display: flex;
+  background-color:#eee ;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  margin-bottom: 1em;
 }
 header  a{
 
   text-decoration-color: var(--third-color); /* Change the color of the line */
   text-decoration-thickness: .2em; /* Increase the thickness of the line */
 }
+header  a i {
+  color: var(--main-color);
+  margin-right: 1em ;
+  font-size: 3em;
+}
+
 /* feed */
 .feed{
   display: flex;

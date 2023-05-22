@@ -4,6 +4,8 @@ const homeController = require("./../controllers/home");
 
 const router = express.Router();
 
+router.get("/test",authController.testFreind);
+router.get("/getUser/:id",authController.getUser);
 router.get("/",authController.isLoggedIn, homeController.getIndex);
 router.get("/signup",authController.isLoggedIn, authController.getSignup);
 router.post("/signup", authController.signup);

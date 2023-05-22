@@ -37,7 +37,7 @@ const sendErrorDev = (err, req, res) => {
     });
   }
 
-  // Hnadle singup and login pages
+  // Handle singup and login pages
   
   if (err.statusCode === 409){
     let error = {};
@@ -48,7 +48,7 @@ const sendErrorDev = (err, req, res) => {
     return res.status(err.statusCode).json({status:"fail",error});
     // return res.status(err.statusCode).json({status:"fail",error:err.message});
   }
-  if (err.statusCode === 401){
+  if (err.message === "Incorrect email or password"){
     let error = {};
 
     
@@ -56,15 +56,20 @@ const sendErrorDev = (err, req, res) => {
     return res.status(err.statusCode).json({status:"fail",error:err.message});
     // return res.status(err.statusCode).json({status:"fail",error:err.message});
   }
-
+  if (err.message.startsWith("User validation")){
+    let error ={}
+    console.log(err.statusCode);
+    error.validation = err.message;
+    return res.status(404).json({status:"fail",error})
+  }
   // B) RENDERED WEBSITE
   console.error('💥ERROR 💥', err);
   console.log('MEESSAGE:💥 ',err.message);
   if (err.message.startsWith('Cast to ObjectId failed'))
-    err.message="Invalid User";
+    err.message="Invliad User";
   
   return res.status(err.statusCode).render('error', {
-    title: 'something went wrong!',
+    title: 'Something went wrong!',
     msg: err.message
   });
 };
