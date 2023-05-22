@@ -3,6 +3,7 @@ const cloudinary = require('../middleware/cloudinary')
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 
+
 // exports.makeComment = catchAsync(async (req, res, next) => {
 //     const comment = await Comment.create({
 //         comment: req.body.comment,
@@ -48,10 +49,10 @@ exports.getPost = catchAsync(async (req, res, next) => {
     const post = await Post.findById(req.params.id);
     // get all comments for this post 
     const comments = await Comment.find({post:req.params.id}).sort({createdAt:"desc"}).lean();
-    console.log(" POST:➡️ ",post);
-    console.log('-------------------------------------------------------------');
-    console.log(comments);
-    console.log('-------------------------------------------------------------');
+    // console.log(" POST:➡️ ",post);
+    // console.log('-------------------------------------------------------------');
+    // console.log(comments);
+    // console.log('-------------------------------------------------------------');
 
     res.render('post',{title:"Get Post",post,comments,user:req.user});
     // res.status(201).json({
@@ -77,6 +78,12 @@ exports.updateLikes = catchAsync(async (req, res, next) => {
 exports.deletePost = catchAsync(async (req, res, next) => {
     // find post and delete it
     const post = await Post.findByIdAndDelete(req.params.id);
+    // delte comments on this post also but first conver post id to object
+    const postIdObj = new ObjectId(req.params.id)
+    // console.log(postIdObj);
+    // await Comment.del(postIdObj);
+    const comments = await Comment.deleteMany({post:req.params.id}) ;
+    console.log("➡️➡️",comments);
     // delete image from cloudinary
     await cloudinary.uploader.destroy(post.cloudinaryId)
     // 
