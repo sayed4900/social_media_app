@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
     password: {type:String,required:[true,"Please Provide a password"]},
     friends: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Friend',
+        ref: 'User',
     }]
 });
 

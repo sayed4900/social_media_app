@@ -1,13 +1,13 @@
 <%- include('./partials/auth-header') %>
 <div class="main-profile">
     <div class="user-info">    
-        <h4>Username: <%= currentUser.username%></h4>
-        <h4>Email: <%= currentUser.email%></h4>
+        <h4>Username: <%= user.username%></h4>
+        <h4>Email: <%= user.email%></h4>
         <a href="/logout"><button class="btn">Logout</button></a>
     </div>
     <a href="/post/feed"><button class="btn-feed">Return to Feed</button></a>
 </div>
-<% if (loggedUserId === currentUserId ) { %>
+<% if (loggedUserId === user._id.toString() ) { %>
     <div class="createPost">
         <h1>Add a post</h1>
         <!-- <form action="/post/creatPost" method="POST" enctype="multipart/form-data" > -->

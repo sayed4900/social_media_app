@@ -93,6 +93,7 @@ exports.deletePost = catchAsync(async (req, res, next) => {
 
 exports.getFeed = catchAsync(async (req, res, next) => {
     const posts = await Post.find().sort({createdAt:"desc"}).lean();
-    console.log(posts);
-    res.status(200).render('feed',{ status: "success",posts, result: posts.length,title:"Feed"  });
+    // console.log(posts);
+    console.log(req.user);
+    res.status(200).render('feed',{ status: "success",user:req.user,posts, result: posts.length,title:"Feed"  });
 });

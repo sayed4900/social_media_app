@@ -1,22 +1,49 @@
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-    <title><%= title  %></title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="/imges/favicon-32x32.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+  <title><%= title  %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/png" sizes="16x16" href="/imges/favicon-32x32.png">
 
     
 </head>
 <body>
     <header>
-        <a href="/">
-            <h1 class="head-title">Picstagram</h1>
-        </a>
-        <a href="/">
-            <i class="fa-solid fa-bell"></i>
-        </a>
-    </header>
+    <div class="container">
+      <ul class="user-links">    
+        <li><a href="/">
+          <h1 class="head-title">Picstagram</h1>
+        </a> </li>              
+        <li><a href="/post/feed">Feed</a>  </li>             
+        <li><a href="/">Search</a></li>                                                      
+      </ul>
+      <nav>
+        <div class="user-icon-panel">
+          <a href="/">
+            <i class="fa-solid fa-message icon-header"></i>
+          </a>               
+          <i class="fa-solid fa-bell icon-header notifi-icon"></i>               
+          <ul class="notification-list">
+            <li>
+              <a href="#">Sayed send a friend request to you</a>
+            </li>
+            <li>
+              <a href="#">view all</a>
+            </li>
+          </ul>
+          <div>
+            <img class="user-img" src="/imges/default-use2r.png" alt="">
+            <ul class="user-pic">
+              <a href="/profile/<%= user._id  %>"><li>Profile</li></a>
+              <a href="/"><li>Friends</li></a>
+              <a href="/logout"><li>Logout</li></a>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+</header>

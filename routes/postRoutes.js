@@ -8,7 +8,7 @@ const authController = require("./../controllers/authController");
 const router = express.Router();
 
 
-router.get("/feed", postController.getFeed);
+router.get("/feed",authController.isLoggedIn, postController.getFeed);
 router.get("/:id",authController.protect, postController.getPost);
 router.post("/creatPost", upload.single('file') ,authController.protect, postController.makePost);
 router.delete(

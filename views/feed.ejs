@@ -1,24 +1,25 @@
 <%- include('./partials/auth-header.ejs') %>
 
-<h1>FEED</h1>
-<!-- on the feed create render the images on ancher tag which lead to the post  -->
-<div class="feed">
 
-    <ul>
-        <% posts.forEach(post => { %>
+<div class="container">
+    <h1 class="title-feed">FEED</h1>
+    <div class="feed">
+        <ul class="image-list">
+            <% posts.forEach(post => { %>
+                <li class="">
+                    <a href="/post/<%= post._id%>">
+                        <div>
+                            <img class="img" src="<%= post.image%>">
+                        </div>
+                    </a>
+                </li>
+                    
+                <% }) %>                       
+        </ul>
             
-        <li class="col-6 justify-content-between mt-5">
-            <a href="/post/<%= post._id%>">
-                <div>
-                    <img class="img" src="<%= post.image%>">
-                </div>
-            </a>
-        </li>
-            
-        <% }) %>
-    </ul>
-        
+    </div>
 </div>
+
 <div class="col-6 mt-5">
     <a class="btn btn-primary" href="/">Return to Profile</a>
     

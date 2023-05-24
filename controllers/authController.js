@@ -1,20 +1,19 @@
 const { promisify } = require("util");
 const catchAsync = require("./../utils/catchAsync");
 const User = require("../models/User");
-const Friend = require("../models/Friend");
 const Post = require("../models/Post");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 const ObjectId = require('mongodb').ObjectId;
 
-exports.testFreind =async (req,res,next)=>{
-    const f = await Friend.create({
-        user:"63dbf95560c86ac5b929bc4d"
-    })
-    res.json(f);
+
+
+// middle ware to get current userId
+const userId = (req,res,next)=>{
+    req.user
+    next();
 }
 // Sending JWT via cookie
-
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
@@ -45,9 +44,9 @@ exports.getSignup = (req,res,next)=>{
     if(req.user){
         res.redirect(`/profile/${req.user._id}`);
     }
-    else {
-    }res.render('signup',{title:"Signup"});
-        
+    
+    res.render('signup',{title:"Signup"});
+    
 }
 exports.signup = catchAsync(async (req, res, next) => {
     
@@ -79,7 +78,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.getUser = catchAsync(async (req, res, next) => {
     try {
-        const user = await User.findById(req.params.id).populate('friends');
+        const user = await User.findById(req.params.id);
         console.log(user);
         res.status(201).json({ status: "success", user });
     } catch (error) {
@@ -89,7 +88,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
 
 exports.getLogin = catchAsync(async (req, res, next) => {
     if (req.user) res.redirect('/');
-    else res.render('login',{title:"Login "})
+    else res.render('login',{title:"Login"})
 })
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -120,18 +119,16 @@ exports.getProfile = catchAsync(async (req, res, next) => {
     }else{
         console.log("💥✈️💥✈️");
     }
-    // get all post for this user
-    const loggedUserId = new ObjectId(req.user._id).toString();
-    const currentUserId = new ObjectId(user._id).toString();
-    
 
+    const loggedUserId = new ObjectId(req.user._id).toString();
     
+    // get all post for this user
     const userPosts = await Post.find({ user: user._id });
     // console.log(userPosts);
 
     // get all comments for the post
     // res.status(200).json({ status: "success", user, userPosts });
-    res.status(200).render('profile',{currentUser:user,userPosts,loggedUserId,currentUserId,title:"Profile"})
+    res.status(200).render('profile',{user,userPosts,loggedUserId,title:"Profile"})
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
