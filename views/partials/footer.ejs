@@ -8,6 +8,23 @@
             <a href="https://www.facebook.com/profile.php?id=100005457633832" target="_blank"><i class="fa-brands fa-facebook"></i></a>
         </div>
     </footer>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="/js/script.js"></script>
+    <script>
+        const socket = io();
+        /*socket.emit("msg",()=>{
+            console("From client to the server")
+        })*/
+        socket.on("newPostNotification",(data)=>{
+            const {post,userId,friends} = data
+            console.log("😁😁😁",post);
+            console.log("😁😁😁",userId);
+            console.log("😁😁😁",friends);
+        })
+        socket.on("newLike",(data)=>{
+            const {post,userId,friends} = data
+            console.log("Testing");
+        })
+    </script>
 </body>
 </html>

@@ -14,7 +14,7 @@ router.post("/creatPost", upload.single('file') ,authController.protect, postCon
 router.delete(
     "/deletePost/:id",
     authController.protect,
-    postController.deletePost
+    postController.deletePost,postController.getFeed
 );
 // likes
 router.put(
