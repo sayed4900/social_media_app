@@ -19,4 +19,4 @@ Note: The frontend of this application is still under development, and the versi
 
 -   Chating with other users
 
-### [Live Demo](https://social-media-fbu5fz55l-sayed4900.vercel.app/)
+### [Live Demo](https://social-media-api-sayed4900.vercel.app/)
