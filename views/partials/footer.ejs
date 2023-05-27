@@ -12,19 +12,25 @@
     <script src="/js/script.js"></script>
     <script>
         const socket = io();
-        /*socket.emit("msg",()=>{
-            console("From client to the server")
-        })*/
-        socket.on("newPostNotification",(data)=>{
-            const {post,userId,friends} = data
-            console.log("😁😁😁",post);
-            console.log("😁😁😁",userId);
-            console.log("😁😁😁",friends);
-        })
-        socket.on("newLike",(data)=>{
-            const {post,userId,friends} = data
-            console.log("Testing");
-        })
+        socket.on("connect", () => {
+            friendsId.forEach((friend) => {
+              socket.emit("joinRoom", friend);
+            });
+          });
+          
+          // Function to handle the "newLike" event
+        socket.on("newLike", ({ post, userId, friends }) => {
+            // Process the received data here
+            console.log("New like received!");
+            console.log("Post:", post);
+            console.log("User ID:", userId);
+            console.log("Friends:", friends);
+        });
+          
+          // You can also handle any errors that occur during the communication
+        socket.on("error", (error) => {
+            console.error("Socket error:", error);
+        });
     </script>
 </body>
 </html>

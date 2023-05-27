@@ -21,7 +21,8 @@ const socketIO = require('socket.io');
 const io = socketIO(server);
 
 io.on("connection",(socket)=>{
-    console.log("Test socket");
+    const socketId = socket.id;
+    console.log("Socket ID:", socketId);
     socket.on("msg",()=>{
         console.log("recived from client")
         socket.emit("serverMsg",()=>{

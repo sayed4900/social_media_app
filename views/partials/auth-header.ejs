@@ -29,7 +29,7 @@
           <i class="fa-solid fa-bell icon-header notifi-icon"></i>               
           <ul class="notification-list">
             <li>
-              <a href="#">Sayed send a friend request to you</a>
+              <a href="#">No notifaction now</a>
             </li>
             <li>
               <a href="#">view all</a>
@@ -45,5 +45,7 @@
           </div>
         </div>
       </nav>
+      <input type="text" id="userId" value="<%= user._id  %>" hidden>
+      <input type="text" id="userFriends" value="<%= user.friends  %>" hidden>
     </div>
 </header>
